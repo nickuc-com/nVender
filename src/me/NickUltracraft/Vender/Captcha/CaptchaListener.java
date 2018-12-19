@@ -25,12 +25,11 @@ public class CaptchaListener implements Listener {
 		}
 		Player p = (Player)e.getWhoClicked();
 		String n = p.getName();
-		CaptchaManager captcha = new CaptchaManager(p);
-		if(e.getInventory().getName().startsWith(captcha.getTitleName().replace("%item%", ""))) {
+		if(e.getInventory().getName().startsWith(CaptchaManager.getTitleName().replace("%item%", ""))) {
 			ItemStack item = e.getCurrentItem();
 			if(item != null && (item.hasItemMeta() && (item.getItemMeta().hasDisplayName()))) {
 				e.setCancelled(true);
-				String itemDisplay = removerCores(e.getInventory().getName().replace(captcha.getTitleName().replace(" %item%", ""), ""));
+				String itemDisplay = removerCores(e.getInventory().getName().replace(CaptchaManager.getTitleName().replace("%item%", ""), ""));
 				String itemAtual = removerCores(item.getItemMeta().getDisplayName());
 				if(itemAtual.equalsIgnoreCase(itemDisplay)) {
 					p.closeInventory();

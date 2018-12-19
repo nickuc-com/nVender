@@ -39,7 +39,7 @@ public class CaptchaManager {
 	public ItemCaptcha getItem() {
 		return Players.captchaItem.get(name);
 	}
-	public String getTitleName() {
+	public static String getTitleName() {
 		return Main.m.getConfig().getString("Config.Title-Name").replace("&", "§");
 	}
  	private void open() {
