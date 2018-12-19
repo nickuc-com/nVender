@@ -17,12 +17,12 @@ public class Comando implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String lb, String[] args) {
 		if(sender instanceof Player) {
 			Player p = (Player)sender;
-			if(!p.hasPermission("nvender.usar")) {
-				p.sendMessage(Mensagens.SEM_PERMISSÃO);
-				return true;
-			}
 			String name = p.getName();
 			if(args.length == 0) {
+				if(!p.hasPermission("nvender.usar")) {
+					p.sendMessage(Mensagens.SEM_PERMISSÃO);
+					return true;
+				}
 				if(!Players.captchaItem.containsKey(name)) {
 					if(Main.m.getConfig().getBoolean("Config.Captcha")) {
 						new CaptchaManager(p);
@@ -53,8 +53,11 @@ public class Comando implements CommandExecutor {
 						return true;
 					} else {
 						p.sendMessage(Mensagens.SEM_PERMISSÃO);
+						return true;
 					}
 				}
+				p.sendMessage("§cSub-comando inexistente.");
+				return true;
 			}
 		}
 		return false;
