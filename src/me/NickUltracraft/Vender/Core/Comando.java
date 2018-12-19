@@ -17,10 +17,18 @@ public class Comando implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String lb, String[] args) {
 		if(sender instanceof Player) {
 			Player p = (Player)sender;
+			if(!p.hasPermission("nvender.usar")) {
+				p.sendMessage(Mensagens.SEM_PERMISSÃO);
+				return true;
+			}
 			String name = p.getName();
 			if(args.length == 0) {
 				if(!Players.captchaItem.containsKey(name)) {
-					new CaptchaManager(p);
+					if(Main.m.getConfig().getBoolean("Config.Captcha")) {
+						new CaptchaManager(p);
+					} else {
+						new Vender(p);
+					}
 					return true;
 				} else {
 					p.sendMessage("§cUm erro desconhecido ocorreu...");
@@ -30,7 +38,7 @@ public class Comando implements CommandExecutor {
 				String subcmd = args[0];
 				if(subcmd.equalsIgnoreCase("version") || (subcmd.equalsIgnoreCase("v"))) {
 					p.sendMessage("");
-					p.sendMessage("  §e§lnVender v " + Main.m.getDescription().getVersion());
+					p.sendMessage("  §a§lnVender §av " + Main.m.getDescription().getVersion());
 					p.sendMessage("  §aPlugin gratuito e open-source!");
 					p.sendMessage("  §aLink para download: §fyoutube.com/c/nickultracraft");
 					p.sendMessage("  §aSource code: §f" + link);

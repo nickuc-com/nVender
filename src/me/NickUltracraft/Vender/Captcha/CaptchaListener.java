@@ -13,6 +13,11 @@ import me.NickUltracraft.Vender.Core.Vender;
 
 public class CaptchaListener implements Listener {
 
+	private String removerCores(String string) {
+		string = string.replace("&", "§");
+		string = string.replace("§0", "").replace("§1", "").replace("§2", "").replace("§3", "").replace("§4", "").replace("§5", "").replace("§6", "").replace("§7", "").replace("§8", "").replace("§9", "").replace("§a", "").replace("§b", "").replace("§c", "").replace("§d", "").replace("§e", "").replace("§f", "").replace("§l", "");
+		return string;
+	}
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		if(e.getWhoClicked() == null) {
@@ -20,12 +25,13 @@ public class CaptchaListener implements Listener {
 		}
 		Player p = (Player)e.getWhoClicked();
 		String n = p.getName();
-		if(e.getInventory().getName().startsWith("§8VENDA Clique no(a)")) {
+		CaptchaManager captcha = new CaptchaManager(p);
+		if(e.getInventory().getName().startsWith(captcha.getTitleName().replace("%item%", ""))) {
 			ItemStack item = e.getCurrentItem();
 			if(item != null && (item.hasItemMeta() && (item.getItemMeta().hasDisplayName()))) {
 				e.setCancelled(true);
-				String itemDisplay = e.getInventory().getName().replace("§8VENDA Clique no(a) ", "").replace("§8", "");
-				String itemAtual = item.getItemMeta().getDisplayName().replace("§7", "");
+				String itemDisplay = removerCores(e.getInventory().getName().replace(captcha.getTitleName().replace(" %item%", ""), ""));
+				String itemAtual = removerCores(item.getItemMeta().getDisplayName());
 				if(itemAtual.equalsIgnoreCase(itemDisplay)) {
 					p.closeInventory();
 					new Vender(p);

@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import me.NickUltracraft.Vender.Main;
 import me.NickUltracraft.Vender.Cache.Players;
 import me.NickUltracraft.Vender.Objetos.ItemCaptcha;
 import me.NickUltracraft.Vender.Objetos.ItemCaptcha.CAPTCHA_ITENS;
@@ -38,8 +39,11 @@ public class CaptchaManager {
 	public ItemCaptcha getItem() {
 		return Players.captchaItem.get(name);
 	}
+	public String getTitleName() {
+		return Main.m.getConfig().getString("Config.Title-Name").replace("&", "§");
+	}
  	private void open() {
-		Inventory inv = Bukkit.createInventory(null, 27, "§8VENDA Clique no(a) " + getItem().getTitleName());
+		Inventory inv = Bukkit.createInventory(null, 27, getTitleName().replace("%item%", getItem().getName()));
 		inv.setItem(10, new ItemCaptcha(CAPTCHA_ITENS.Baú).getItemStack());
 		inv.setItem(12, new ItemCaptcha(CAPTCHA_ITENS.Bloco_de_Neve).getItemStack());
 		inv.setItem(14, new ItemCaptcha(CAPTCHA_ITENS.Madeira).getItemStack());

@@ -1,8 +1,14 @@
 # Configuração do nVender 1.0
-# Siga o modelo abaixo ID do Item:Data do item$Preço
-# Lembre-se que este é o preço por unidade
+# Siga o modelo abaixo ID:Data-Preço
+# ALERTA: Lembre-se que este é o preço por unidade
+
+# Permissão para usar o /vender: 'nvender.usar'
 Itens:
 - '1:0-10.0'
+- '2:0-25.0'
+Config:
+    Title-Name: "&8Clique no(a) %item%"
+    Captcha: true
 Mensagens:
     Sem-Permissao: "&cVocê não tem permissão para executar este comando."
     Configuracao-Recarregada: "&aConfiguração e arquivos de linguagem foram recarregados."

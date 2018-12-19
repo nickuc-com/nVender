@@ -18,7 +18,6 @@ public class Vender {
 	private int quantidade = 0;
 	private double ganhos = 0;
 	
-	
 	private boolean inventoryIsEmpty() {
 		PlayerInventory inv = player.getInventory();
 		for (ItemStack i : inv.getContents()) {
@@ -51,7 +50,6 @@ public class Vender {
 			int amount = item.getAmount();
 			Material material = Material.getMaterial(item.getTypeId());
 			if(getMaterials().contains(material)) {
-				Main.m.console(Item.valueOf(item).getDadoPuro());
 				double itemValue = Item.valueOf(item).getPreço();
 				double dinheiroAdicionado = itemValue * amount;
 				quantidade = quantidade + amount;
