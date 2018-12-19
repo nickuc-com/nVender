@@ -1,0 +1,9 @@
+name: nVender
+version: 1.0
+main: me.NickUltracraft.Vender.Main
+description: Comando para vender itens com captcha.
+website: youtube.com/c/nickultracraft
+author: NickUltracraft
+commands:
+    vender: 
+        description: Comando principal do plugin

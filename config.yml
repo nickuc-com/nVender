@@ -1,0 +1,12 @@
+# Configuração do nVender 1.0
+# Siga o modelo abaixo ID do Item:Data do item$Preço
+# Lembre-se que este é o preço por unidade
+Itens:
+- '1:0-10.0'
+Mensagens:
+    Sem-Permissao: "&cVocê não tem permissão para executar este comando."
+    Configuracao-Recarregada: "&aConfiguração e arquivos de linguagem foram recarregados."
+    Captcha-Invalido: "&cO captcha inserido é inválido."
+    Vendido-Sucesso: "&aVocê vendeu &7%itens% &aitens por &7$%dinheiro%&a."
+    Sem-Itens: "&cVocê não possui itens para serem vendidos."
+    Inventario-Vazio: "&cVocê não pode estar com um inventário vazio."
