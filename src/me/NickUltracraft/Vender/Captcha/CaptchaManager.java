@@ -43,7 +43,7 @@ public class CaptchaManager {
 		return Main.m.getConfig().getString("Config.Title-Name").replace("&", "§");
 	}
  	private void open() {
-		Inventory inv = Bukkit.createInventory(null, 27, getTitleName().replace("%item%", getItem().getName()));
+		Inventory inv = Bukkit.createInventory(null, 27, getTitleName().replace("%item%", getItem().getDisplayName()));
 		inv.setItem(10, new ItemCaptcha(CAPTCHA_ITENS.Baú).getItemStack());
 		inv.setItem(12, new ItemCaptcha(CAPTCHA_ITENS.Bloco_de_Neve).getItemStack());
 		inv.setItem(14, new ItemCaptcha(CAPTCHA_ITENS.Madeira).getItemStack());
