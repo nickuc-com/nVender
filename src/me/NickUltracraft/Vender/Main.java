@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.NickUltracraft.Vender.Captcha.CaptchaListener;
 import me.NickUltracraft.Vender.Core.Comando;
 import me.NickUltracraft.Vender.Core.Mensagens;
+import me.NickUltracraft.Vender.Core.VendaListener;
 import net.milkbowl.vault.economy.Economy;
 
 public class Main extends JavaPlugin {
@@ -31,6 +32,7 @@ public class Main extends JavaPlugin {
 		new Mensagens();
 		getCommand("vender").setExecutor(new Comando());
 		Bukkit.getPluginManager().registerEvents(new CaptchaListener(), this);
+		Bukkit.getPluginManager().registerEvents(new VendaListener(), this);
 		console("§anVender foi carregado com sucesso.");
 	}
 	private boolean setupVault() {

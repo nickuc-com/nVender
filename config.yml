@@ -8,7 +8,9 @@ Itens:
 - '2:0-25.0'
 Config:
     Title-Name: "&8Clique no(a) %item%"
-    Captcha: true
+    # Caso o captcha abaixo esteja desativado, um menu com configurações
+    # de venda será aberto, como venda automática e venda por shift.
+    Captcha: false
 Mensagens:
     Sem-Permissao: "&cVocê não tem permissão para executar este comando."
     Configuracao-Recarregada: "&aConfiguração e arquivos de linguagem foram recarregados."

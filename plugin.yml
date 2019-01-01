@@ -1,7 +1,7 @@
 name: nVender
-version: 1.0
+version: 1.1
 main: me.NickUltracraft.Vender.Main
-description: Comando para vender itens com captcha.
+description: Comando para vender itens com captcha, auto-venda e venda com shift.
 website: youtube.com/c/nickultracraft
 author: NickUltracraft
 commands:

@@ -27,7 +27,7 @@ public class Comando implements CommandExecutor {
 					if(Main.m.getConfig().getBoolean("Config.Captcha")) {
 						new CaptchaManager(p);
 					} else {
-						new Vender(p);
+						new Gui(p);
 					}
 					return true;
 				} else {
