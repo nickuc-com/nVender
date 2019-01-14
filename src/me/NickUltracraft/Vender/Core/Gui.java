@@ -56,19 +56,20 @@ public class Gui {
 		}
 		return "";
 	}
+	@SuppressWarnings("deprecation")
 	private ItemStack getItemStack(VendaType vendaType, VendaStatus vendaStatus) {
 		ItemStack item;
 		if(vendaType == VendaType.AUTO_VENDA || (vendaType == VendaType.VENDA_SHIFT)) {
-			item = new ItemStack(Material.WOOL);
+			item = new ItemStack(Material.getMaterial(351));
 		} else {
 			item = new ItemStack(Material.NAME_TAG);
 		}
 		ItemMeta itemMeta = item.getItemMeta();
 		itemMeta.setDisplayName(getDisplayName(vendaType));
 		if(vendaStatus == VendaStatus.DESATIVADO) {
-			item.setDurability((short)14);
+			item.setDurability((short)8);
 		} else if(vendaStatus == VendaStatus.ATIVADO) {
-			item.setDurability((short)5);
+			item.setDurability((short)10);
 		} 
 		item.setItemMeta(itemMeta);
 		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);

@@ -29,6 +29,10 @@ public class VendaListener implements Listener {
 					String display = item.getItemMeta().getDisplayName();
 					switch (display) {
 					case "§7Auto-Venda":
+						if(!p.hasPermission("nvender.autovenda")) {
+							p.sendMessage("§cVocê não tem permissão para usar a venda automática.");
+							return;
+						}
 						if(Gui.autoVenda.contains(p.getName())) {
 							p.sendMessage("§cVocê desativou o modo de venda automática.");
 							Gui.autoVenda.remove(p.getName());
@@ -56,6 +60,10 @@ public class VendaListener implements Listener {
 						new Vender(p);
 						return;
 					case "§7Venda Shift":
+						if(!p.hasPermission("nvender.vendashift")) {
+							p.sendMessage("§cVocê não tem permissão para usar a venda por shift.");
+							return;
+						}
 						if(Gui.vendaShift.contains(p.getName())) {
 							p.sendMessage("§cVocê desativou o modo de venda por shift.");
 							Gui.vendaShift.remove(p.getName());
