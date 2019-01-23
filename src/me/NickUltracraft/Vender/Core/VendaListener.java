@@ -87,7 +87,7 @@ public class VendaListener implements Listener {
 			if(!delay.contains(e.getPlayer().getName())) {
 				if(Main.m.getConfig().getBoolean("Config.Captcha")) {
 					new CaptchaManager(p);
-				}else{
+				} else{
 					new Vender(e.getPlayer());				
 				}
 				delay.add(e.getPlayer().getName());
