@@ -20,28 +20,29 @@ public class Comando implements CommandExecutor {
 			String name = p.getName();
 			if(args.length == 0) {
 				if(!p.hasPermission("nvender.usar")) {
-					p.sendMessage(Mensagens.SEM_PERMISSÃO);
+					p.sendMessage(Mensagens.SEM_PERMISSÃƒO);
 					return true;
 				}
 				if(!Players.captchaItem.containsKey(name)) {
 					if(Main.m.getConfig().getBoolean("Config.Captcha")) {
 						new CaptchaManager(p);
-					} else {
-						new Gui(p);
 					}
 					return true;
 				} else {
-					p.sendMessage("§cUm erro desconhecido ocorreu...");
+					p.sendMessage("Â§cUm erro desconhecido ocorreu...");
 					return true;
 				}
 			} else {
 				String subcmd = args[0];
+				if(subcmd.equalsIgnoreCase("menu")) {
+					new Gui(p);
+				}
 				if(subcmd.equalsIgnoreCase("version") || (subcmd.equalsIgnoreCase("v"))) {
 					p.sendMessage("");
-					p.sendMessage("  §a§lnVender §av " + Main.m.getDescription().getVersion());
-					p.sendMessage("  §aPlugin gratuito e open-source!");
-					p.sendMessage("  §aLink para download: §fyoutube.com/c/nickultracraft");
-					p.sendMessage("  §aSource code: §f" + link);
+					p.sendMessage("  Â§aÂ§lnVender Â§av " + Main.m.getDescription().getVersion());
+					p.sendMessage("  Â§aPlugin gratuito e open-source!");
+					p.sendMessage("  Â§aLink para download: Â§fyoutube.com/c/nickultracraft");
+					p.sendMessage("  Â§aSource code: Â§f" + link);
 					p.sendMessage("");
 					return true;
 				}
@@ -49,14 +50,14 @@ public class Comando implements CommandExecutor {
 					if(p.hasPermission("nvender.admin")) {
 						Main.m.reloadConfig();
 						new Mensagens();
-						p.sendMessage(Mensagens.CONFIGURAÇÃO_RECARREGADA);
+						p.sendMessage(Mensagens.CONFIGURAÃ‡ÃƒO_RECARREGADA);
 						return true;
 					} else {
-						p.sendMessage(Mensagens.SEM_PERMISSÃO);
+						p.sendMessage(Mensagens.SEM_PERMISSÃƒO);
 						return true;
 					}
 				}
-				p.sendMessage("§cSub-comando inexistente.");
+				p.sendMessage("Â§cSub-comando inexistente.");
 				return true;
 			}
 		}
