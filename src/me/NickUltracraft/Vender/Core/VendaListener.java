@@ -22,24 +22,24 @@ public class VendaListener implements Listener {
 	public void onClick(InventoryClickEvent e) {
 		if(e.getWhoClicked() != null && (e.getInventory() != null)) {
 			Player p = (Player)e.getWhoClicked();
-			if(e.getInventory().getName().equalsIgnoreCase("§8Opções de Venda")) {
+			if(e.getInventory().getName().equalsIgnoreCase("Â§8OpÃ§Ãµes de Venda")) {
 				e.setCancelled(true);
 				ItemStack item = e.getCurrentItem();
 				if(item != null && (item.hasItemMeta() && (item.getItemMeta().hasDisplayName()))) {
 					String display = item.getItemMeta().getDisplayName();
 					switch (display) {
-					case "§7Auto-Venda":
+					case "Â§7Auto-Venda":
 						if(!p.hasPermission("nvender.autovenda")) {
-							p.sendMessage("§cVocê não tem permissão para usar a venda automática.");
+							p.sendMessage("Â§cVocÃª nÃ£o tem permissÃ£o para usar a venda automÃ¡tica.");
 							return;
 						}
 						if(Gui.autoVenda.contains(p.getName())) {
-							p.sendMessage("§cVocê desativou o modo de venda automática.");
+							p.sendMessage("Â§cVocÃª desativou o modo de venda automÃ¡tica.");
 							Gui.autoVenda.remove(p.getName());
 							p.closeInventory();
 							new Gui(p);
 						} else {
-							p.sendMessage("§aVocê ativou o modo de venda automática.");
+							p.sendMessage("Â§aVocÃª ativou o modo de venda automÃ¡tica.");
 							Gui.autoVenda.add(p.getName());
 							Timer timer = new Timer(true);
 							timer.scheduleAtFixedRate(new TimerTask() {
@@ -56,21 +56,21 @@ public class VendaListener implements Listener {
 							new Gui(p);
 						}
 						return;
-					case "§7Vender":
+					case "Â§7Vender":
 						new Vender(p);
 						return;
-					case "§7Venda Shift":
+					case "Â§7Venda Shift":
 						if(!p.hasPermission("nvender.vendashift")) {
-							p.sendMessage("§cVocê não tem permissão para usar a venda por shift.");
+							p.sendMessage("Â§cVocÃª nÃ£o tem permissÃ£o para usar a venda por shift.");
 							return;
 						}
 						if(Gui.vendaShift.contains(p.getName())) {
-							p.sendMessage("§cVocê desativou o modo de venda por shift.");
+							p.sendMessage("Â§cVocÃª desativou o modo de venda por shift.");
 							Gui.vendaShift.remove(p.getName());
 							p.closeInventory();
 							new Gui(p);
 						} else {
-							p.sendMessage("§aVocê ativou o modo de venda por shift.");
+							p.sendMessage("Â§aVocÃª ativou o modo de venda por shift.");
 							Gui.vendaShift.add(p.getName());
 							p.closeInventory();
 							new Gui(p);
@@ -85,7 +85,11 @@ public class VendaListener implements Listener {
 	public void onShift(PlayerToggleSneakEvent e) {
 		if(Gui.vendaShift.contains(e.getPlayer().getName())) {
 			if(!delay.contains(e.getPlayer().getName())) {
-				new Vender(e.getPlayer());
+				if(Main.m.getConfig().getBoolean("Config.Captcha")) {
+					new CaptchaManager(p);
+				}else{
+					new Vender(e.getPlayer());				
+				}
 				delay.add(e.getPlayer().getName());
 				new BukkitRunnable() {
 					@Override
