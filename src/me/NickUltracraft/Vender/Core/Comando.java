@@ -26,6 +26,8 @@ public class Comando implements CommandExecutor {
 				if(!Players.captchaItem.containsKey(name)) {
 					if(Main.m.getConfig().getBoolean("Config.Captcha")) {
 						new CaptchaManager(p);
+					} else {
+						new Gui(p);
 					}
 					return true;
 				} else {
