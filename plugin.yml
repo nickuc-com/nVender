@@ -1,0 +1,9 @@
+name: nVender
+version: 1.5
+main: nickultracraft.vender.nVender
+description: Comando para vender itens com captcha, auto-venda e venda com shift.
+website: https://www.nickuc.tk
+author: NickUltracraft
+commands:
+    vender: 
+        description: Comando principal do plugin
