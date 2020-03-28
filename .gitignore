@@ -1,1 +1,3 @@
-/bin/
+/target
+pom.xml
+nVender.iml

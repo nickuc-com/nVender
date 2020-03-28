@@ -1,0 +1,76 @@
+#                          _
+# _ __/\   /\___ _ __   __| | ___ _ __
+# | '_ \ \ / / _ \ '_ \ / _` |/ _ \ '__|
+# | | | \ V /  __/ | | | (_| |  __/ |
+# |_| |_|\_/ \___|_| |_|\__,_|\___|_|
+
+# Configuração do nVender v 3.0
+# Precisa de suporte? Entre em nosso grupo do discord: https://www.nickuc.com/discord
+
+# Defina a permissão desejada para cada tipo de venda (definida por padrão como 'nvender.shift' e 'nvender.automatico')
+permissao-shift: 'nvender.shift'
+permissao-automatico: 'nvender.automatico'
+permissao-vender: 'nvender.usar'
+
+# Siga o modelo abaixo de venda
+# ALERTA: Lembre-se que este é o preço definido pela quantia de blocos definida na configuração abaixo.
+Itens:
+    Pedra:
+      ID: '1:0'
+      Valor: 10.0
+      Quantidade: 1 # Quantidade de itens para multiplicar
+
+    Grama:
+      ID: '2:0'
+      Valor: 25.0
+      Quantidade: 2304 # Exemplo de quantidade de itens para todo inventario
+        
+Config:
+    # Utilizado para a solução de problemas 
+    debug-mode: false
+
+    # Deseja executar a venda de forma asíncrona?
+    # Desativar o recurso abaixo pode causar problemas de desempenho em servidores muito grandes
+    run-sell-async: true
+
+    # Insira aqui o delay que você deseja para o shift vender [Em segundos]
+    # Insira zero para remover o delay 
+    DelayShift: 1.0
+
+    # Insira aqui o delay que você deseja para o auto venda [Em segundos]
+    # Caso insira um valor menor que 0.5, o valor default será usado:
+    DelayAutoVenda: 2.5
+    
+Multiplicador:
+    # Tipos de Multiplicador
+    # Valores válidos [grupo,permissao,nenhum]
+    # Caso utilize 'grupo', o jogador receberá o multiplicador
+    # de acordo com seu grupo.	
+    # Caso utilize 'permissao', o jogador receberá o multiplicador
+    # de acordo com sua permissao.
+    Tipo: 'grupo'
+
+    # Valores iguais a 100% representam todo o valor
+    # Exemplos:
+    #
+    # Item custa 10 coins
+    # 100% = 10 coins
+    # 50% = 5 coins
+    # 200% = 20 coins
+    Membro:
+        Grupo: 'default'
+        Permissao: 'vender.membro'
+        Multiplicador: '100%'
+    # Neste exemplo, o grupo vip vai receber 2X mais que o membro nas vendas
+    Vip:
+        Grupo: 'vip'
+        Permissao: 'vender.vip'
+        Multiplicador: '200%'
+
+Mensagens:
+    Sem-Permissao: "&cVocê não tem permissão para executar este comando."
+    Configuracao-Recarregada: "&aConfiguração e arquivos de linguagem foram recarregados."
+    Captcha-Invalido: "&cO captcha inserido é inválido."
+    Vendido-Sucesso: "&aVocê vendeu &7%itens% &aitens por &7$%dinheiro%&a."
+    Sem-Itens: "&cVocê não possui itens para serem vendidos."
+    Inventario-Vazio: "&cVocê não pode estar com um inventário vazio."

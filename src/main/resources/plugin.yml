@@ -1,0 +1,8 @@
+name: nVender
+version: 3.0
+main: com.nickuc.vender.nVender
+description: 'Comando para vender itens com captcha, auto-venda e venda com shift.'
+website: 'https://www.nickuc.com'
+api-version: 1.13
+authors: [NickUC]
+softdepend: [CoreLibs,Vault]
