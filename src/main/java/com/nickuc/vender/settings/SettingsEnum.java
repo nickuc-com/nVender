@@ -33,22 +33,22 @@ public enum SettingsEnum implements ISettingsEnum {
     RUN_SELL_ASYNC("Config.run-sell-async", true),
     ;
 
-    private static VendaCore.MultiplicadorMethodType multiplicadorType;
+    private static VendaCore.MultiplicadorType multiplicadorType;
 
     public static ArrayList<String> vendaShift = new ArrayList<>();
     public static ArrayList<String> autoVenda = new ArrayList<>();
     public static List<ItemStack> loadedItens = new ArrayList<>();
     public static List<String> multiplicadores = new ArrayList<>();
 
-    private String key;
-    private Object defaultValue;
+    private final String key;
+    private final Object defaultValue;
 
     public static void reload(nConfig config) throws Exception {
         Settings.loadSettings(SettingsEnum.values(), config);
-        multiplicadorType = VendaCore.MultiplicadorMethodType.getByConfig(Settings.getString(SettingsEnum.MULTIPLICADOR_TYPE).toLowerCase());
+        multiplicadorType = VendaCore.MultiplicadorType.getByConfig(Settings.getString(SettingsEnum.MULTIPLICADOR_TYPE).toLowerCase());
     }
 
-    public static VendaCore.MultiplicadorMethodType getMultiplicadorType() {
+    public static VendaCore.MultiplicadorType getMultiplicadorType() {
         return multiplicadorType;
     }
 

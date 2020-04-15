@@ -29,8 +29,8 @@ public enum MessagesEnum implements IMessagesEnum {
     INVENTORY_EMPTY("Mensagens.Inventario-Vazio", "§cVocê não pode estar com um inventário vazio."),
     ;
 
-    private String key;
-    private String defaultValue;
+    private final String key;
+    private final String defaultValue;
 
     public static void reload(nConfig config) throws Exception {
         Messages.loadMessages(MessagesEnum.values(), config);

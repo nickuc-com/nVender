@@ -13,7 +13,7 @@
 
 package com.nickuc.vender.manager;
 
-import com.nickuc.ncore.api.plugin.spigot.itemstack.Item;
+import com.nickuc.ncore.api.plugin.bukkit.itemstack.Item;
 import com.nickuc.vender.settings.SettingsEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,11 +26,11 @@ import org.bukkit.inventory.ItemStack;
 public class VendaMenu {
 
 	@AllArgsConstructor @Getter
-	private enum VendaType {
+	private enum Type {
 
 		AUTO_VENDA("§7Auto-Venda"), VENDA_SHIFT("§7Venda Shift"), VENDA("§7Vender");
 
-		private String displayName;
+		private final String displayName;
 
 		public boolean getStatus(Player player) {
 			switch (this) {
@@ -44,13 +44,13 @@ public class VendaMenu {
 
 	}
 
-	private static ItemStack getItemStack(Player player, VendaType vendaType) {
+	private static ItemStack getItemStack(Player player, Type vendaType) {
 		Item itemBuilder = Item.builder()
-				.material(vendaType == VendaType.AUTO_VENDA || (vendaType == VendaType.VENDA_SHIFT) ? Material.INK_SACK : Material.NAME_TAG)
+				.material(vendaType == Type.AUTO_VENDA || (vendaType == Type.VENDA_SHIFT) ? Material.INK_SACK : Material.NAME_TAG)
 				.displayName(vendaType.getDisplayName())
 				.build();
 
-		if(vendaType != VendaType.VENDA) {
+		if(vendaType != Type.VENDA) {
 			itemBuilder.durability(vendaType.getStatus(player) ? 10 : 8);
 		}
 		return itemBuilder.createItem();
@@ -58,9 +58,9 @@ public class VendaMenu {
 
 	public static void openMenu(Player player) {
 		Inventory inventory = Bukkit.createInventory(null, 27, "§8Opções de venda");
-		inventory.setItem(11, getItemStack(player, VendaType.AUTO_VENDA));
-		inventory.setItem(13, getItemStack(player, VendaType.VENDA));
-		inventory.setItem(15, getItemStack(player, VendaType.VENDA_SHIFT));
+		inventory.setItem(11, getItemStack(player, Type.AUTO_VENDA));
+		inventory.setItem(13, getItemStack(player, Type.VENDA));
+		inventory.setItem(15, getItemStack(player, Type.VENDA_SHIFT));
 		player.openInventory(inventory);
 	}
 }

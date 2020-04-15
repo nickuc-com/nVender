@@ -15,10 +15,10 @@ package com.nickuc.vender;
 
 import com.nickuc.ncore.api.config.nConfig;
 import com.nickuc.ncore.api.logger.ConsoleLogger;
-import com.nickuc.ncore.api.plugin.spigot.AbstractPlugin;
+import com.nickuc.ncore.api.plugin.bukkit.AbstractPlugin;
 import com.nickuc.vender.commands.VenderCommand;
 import com.nickuc.vender.listeners.BukkitListeners;
-import com.nickuc.vender.objects.nVenderItem;
+import com.nickuc.vender.objects.SellItem;
 import com.nickuc.vender.settings.MessagesEnum;
 import com.nickuc.vender.settings.SettingsEnum;
 import net.milkbowl.vault.economy.Economy;
@@ -85,12 +85,12 @@ public class nVender extends AbstractPlugin {
 		/**
 		 * Register commands
 		 */
-		registerCommands(new VenderCommand(this));
+		registerCommands(new VenderCommand());
 
 		/**
 		 * Register listeners
 		 */
-		registerListeners(new BukkitListeners(this));
+		registerListeners(new BukkitListeners());
 
 		/**
 		 * Vault hook service
@@ -159,7 +159,7 @@ public class nVender extends AbstractPlugin {
 			double valor = config.getDouble("Itens." + itemConfig + ".Valor");
 			int quantidade = config.getInt("Itens." + itemConfig + ".Quantidade");
 
-			nVenderItem item = new nVenderItem(id, data, valor, quantidade);
+			SellItem item = new SellItem(id, data, valor, quantidade);
 			@SuppressWarnings("deprecation")
 			Material material = Material.getMaterial(item.getId());
 			ItemStack itemStack = new ItemStack(material);

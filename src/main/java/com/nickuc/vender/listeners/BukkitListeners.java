@@ -13,6 +13,7 @@
 
 package com.nickuc.vender.listeners;
 
+import com.nickuc.ncore.api.plugin.bukkit.listener.Listener;
 import com.nickuc.ncore.api.settings.Settings;
 import com.nickuc.vender.manager.VendaCore;
 import com.nickuc.vender.manager.VendaMenu;
@@ -20,7 +21,6 @@ import com.nickuc.vender.nVender;
 import com.nickuc.vender.settings.SettingsEnum;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -31,15 +31,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-public class BukkitListeners implements Listener {
+public class BukkitListeners extends Listener<nVender> {
 	
-	private static ArrayList<String> delay = new ArrayList<>();
-
-	private nVender nvender;
-
-	public BukkitListeners(nVender nvender) {
-		this.nvender = nvender;
-	}
+	private static final ArrayList<String> delay = new ArrayList<>();
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
@@ -62,17 +56,18 @@ public class BukkitListeners implements Listener {
 						} else {
 							p.sendMessage("§aVocê ativou o modo de venda automática.");
 							SettingsEnum.autoVenda.add(p.getName());
-							double delayDouble = nvender.getConfig().getDouble("Config.DelayAutoVenda");
+							double delayDouble = plugin.getConfig().getDouble("Config.DelayAutoVenda");
 							if (delayDouble < 0.5) {
 								delayDouble = 2.5;
 							}
 							long timeLong = (long) (1000 * delayDouble);
+
 							Timer timer = new Timer(true);
 							timer.scheduleAtFixedRate(new TimerTask() {
 								@Override
 								public void run() {
 									if (SettingsEnum.autoVenda.contains(p.getName())) {
-										new VendaCore(p, VendaCore.VendaType.AUTO_VENDA, nvender);
+										new VendaCore(p, VendaCore.Type.AUTO_VENDA, plugin);
 									} else {
 										cancel();
 									}
@@ -83,7 +78,7 @@ public class BukkitListeners implements Listener {
 						VendaMenu.openMenu(p);
 						return;
 					case "§7Vender":
-						new VendaCore(p, VendaCore.VendaType.VENDA_NORMAL, nvender);
+						new VendaCore(p, VendaCore.Type.VENDA_NORMAL, plugin);
 						return;
 					case "§7Venda Shift":
 						if (!p.hasPermission(Settings.getString(SettingsEnum.PERMISSION_SHIFT))) {
@@ -106,15 +101,15 @@ public class BukkitListeners implements Listener {
 	@EventHandler
 	public void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
 		if (SettingsEnum.vendaShift.contains(e.getPlayer().getName())) {
-			double delayDouble = nvender.getConfig().getDouble("Config.DelayShift");
+			double delayDouble = plugin.getConfig().getDouble("Config.DelayShift");
 			if (delayDouble <= 0) {
-				new VendaCore(e.getPlayer(), VendaCore.VendaType.VENDA_SHIFT, nvender);
+				new VendaCore(e.getPlayer(), VendaCore.Type.VENDA_SHIFT, plugin);
 			} else {
 				long timeLong = (long) (20 * delayDouble);
 				if (!delay.contains(e.getPlayer().getName())) {
-					new VendaCore(e.getPlayer(), VendaCore.VendaType.VENDA_SHIFT, nvender);
+					new VendaCore(e.getPlayer(), VendaCore.Type.VENDA_SHIFT, plugin);
 					delay.add(e.getPlayer().getName());
-					nvender.runTaskLater(false, () -> delay.remove(e.getPlayer().getName()), timeLong, TimeUnit.SECONDS);
+					plugin.runTaskLater(false, () -> delay.remove(e.getPlayer().getName()), timeLong, TimeUnit.SECONDS);
 				} 
 			}
 		}

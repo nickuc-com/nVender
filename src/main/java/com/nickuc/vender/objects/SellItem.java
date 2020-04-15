@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import com.nickuc.vender.nVender;
 
 @AllArgsConstructor @Getter
-public class nVenderItem {
+public class SellItem {
 	
 	private int id;
 	private int data;
@@ -29,7 +29,7 @@ public class nVenderItem {
 	private int quantidade = 1;
 
 	@SuppressWarnings("deprecation")
-	public nVenderItem(nVender nvender, ItemStack itemStack) {
+	public SellItem(nVender nvender, ItemStack itemStack) {
 		for(String item : nvender.getConfig().getConfigurationSection("Itens").getKeys(false)) {
 			this.id = Integer.parseInt(nvender.getConfig().getString("Itens." + item + ".ID").split(":")[0]);
 			this.data = Integer.parseInt(nvender.getConfig().getString("Itens." + item + ".ID").split(":")[1]);
@@ -40,8 +40,8 @@ public class nVenderItem {
 		}
 	}
 
-	public static nVenderItem valueOf(nVender nvender, ItemStack item) {
-		return new nVenderItem(nvender, item);
+	public static SellItem valueOf(nVender nvender, ItemStack item) {
+		return new SellItem(nvender, item);
 	}
 
 	@SuppressWarnings("deprecation")
