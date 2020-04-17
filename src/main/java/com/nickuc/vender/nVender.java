@@ -40,6 +40,8 @@ public class nVender extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
+		ConsoleLogger.init(this);
+		
 		/**
 		 * Plugin startup
 		 */
