@@ -5,4 +5,7 @@ description: 'Comando para vender itens com captcha, auto-venda e venda com shif
 website: 'https://www.nickuc.com'
 api-version: 1.13
 authors: [NickUC]
-softdepend: [CoreLibs,Vault]
+softdepend: [Vault]
+commands:
+  vender:
+    description: 'Comando para vender itens'

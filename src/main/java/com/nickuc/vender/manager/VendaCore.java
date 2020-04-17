@@ -13,13 +13,9 @@
 
 package com.nickuc.vender.manager;
 
-import com.nickuc.ncore.api.logger.ConsoleLogger;
-import com.nickuc.ncore.api.settings.Messages;
-import com.nickuc.ncore.api.settings.Settings;
 import com.nickuc.vender.nVender;
 import com.nickuc.vender.objects.SellItem;
-import com.nickuc.vender.settings.MessagesEnum;
-import com.nickuc.vender.settings.SettingsEnum;
+import com.nickuc.vender.settings.Settings;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Material;
@@ -43,7 +39,11 @@ public class VendaCore {
 			this.player = player;
 			this.vendaType = vendaType;
 			this.nvender = nvender;
-			nvender.runTask(Settings.getBoolean(SettingsEnum.RUN_SELL_ASYNC), this::performSell);
+			if (Settings.RUN_SELL_ASYNC.getBoolean()) {
+				nvender.getServer().getScheduler().runTaskAsynchronously(nvender, this::performSell);
+			} else {
+				nvender.getServer().getScheduler().runTask(nvender, this::performSell);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			player.sendMessage("§cUm erro desconhecido ocorreu...");
@@ -52,18 +52,17 @@ public class VendaCore {
 
 	public void performSell() {
 		if (checkInventoryIsEmpty()) {
-			if (vendaType == Type.VENDA_NORMAL) player.sendMessage(Messages.getMessage(MessagesEnum.INVENTORY_EMPTY));
+			if (vendaType == Type.VENDA_NORMAL) player.sendMessage(Settings.Messages.INVENTORY_EMPTY.getMessage());
 			return;
 		}
-		if (SettingsEnum.loadedItens == null || SettingsEnum.loadedItens.size() == 0) {
+		if (Settings.loadedItens == null || Settings.loadedItens.size() == 0) {
 			player.sendMessage("§cAinda não existem itens configurados para serem vendidos.");
 			return;
 		}
 		for (ItemStack item : getItensInInventory()) {
 			int amount = item.getAmount();
-			for (ItemStack itemStackConfig : SettingsEnum.loadedItens) {
+			for (ItemStack itemStackConfig : Settings.loadedItens) {
 				if (item.getType() == itemStackConfig.getType() && (item.getDurability() == itemStackConfig.getDurability())) {
-					ConsoleLogger.debug(" [Player Inventory] The player contains " + item.getType().name() + ".");
 					SellItem nvenderitem = SellItem.valueOf(nvender, item);
 					double itemValue = nvenderitem.getPrice();
 					double dinheiroAdicionado = itemValue * amount;
@@ -75,9 +74,8 @@ public class VendaCore {
 				}
 			}
 		}
-		ConsoleLogger.debug("[PlayerInventory] Removing itens after sell...");
 		for (ItemStack item : getItensInInventory()) {
-			for (ItemStack itemStack : SettingsEnum.loadedItens) {
+			for (ItemStack itemStack : Settings.loadedItens) {
 				if (item.getType() == itemStack.getType() && (item.getDurability() == itemStack.getDurability())) {
 					for (int i = 0; i < quantidade; i++) {
 						player.getInventory().removeItem(item);
@@ -88,11 +86,11 @@ public class VendaCore {
 		}
 		if (quantidade == 0) {
 			if (vendaType == Type.VENDA_NORMAL) {
-				player.sendMessage(Messages.getMessage(MessagesEnum.NO_ITENS));
+				player.sendMessage(Settings.Messages.NO_ITENS.getMessage());
 			}
 			return;
 		}
-		player.sendMessage(Messages.getMessage(MessagesEnum.VENDIDO).replace("%itens%", String.valueOf(quantidade)).replace("%dinheiro%", String.valueOf(ganhos)));
+		player.sendMessage(Settings.Messages.VENDIDO.getMessage().replace("%itens%", String.valueOf(quantidade)).replace("%dinheiro%", String.valueOf(ganhos)));
 	}
 
 	private boolean checkInventoryIsEmpty() {
@@ -106,24 +104,22 @@ public class VendaCore {
 	}
 
 	private double processMultiplicador(double valorOriginal) {
-		switch (SettingsEnum.getMultiplicadorType()) {
+		switch (Settings.getMultiplicadorType()) {
 
 			case DETECCAO_GRUPO:
-				for (String multiplicador : SettingsEnum.multiplicadores) {
+				for (String multiplicador : Settings.multiplicadores) {
 					boolean inGroup = nVender.permission.playerInGroup(player, multiplicador.split("-")[0]);
 					if (inGroup) {
 						double calc = Double.parseDouble(multiplicador.split("-")[2])/100;
-						ConsoleLogger.debug(" [Multiplicador] The price original is: " + valorOriginal + ". The final is: " + valorOriginal*calc + ". The multiplicator is " + multiplicador.split("-")[2] + "X for group " + multiplicador.split("-")[0]);
 						return valorOriginal*calc;
 					}
 				}
 				break;
 			case DETECCAO_PERMISSAO:
-				for (String multiplicador : SettingsEnum.multiplicadores) {
+				for (String multiplicador : Settings.multiplicadores) {
 					boolean hasperm = player.hasPermission(multiplicador.split("-")[1]);
 					if (hasperm) {
 						double calc = Double.parseDouble(multiplicador.split("-")[2])/100;
-						ConsoleLogger.debug(" [Multiplicador] The price original is: " + valorOriginal + ". The final is: " + valorOriginal*calc + ". The multiplicator is " + multiplicador.split("-")[2] + "X  for group " + multiplicador.split("-")[0]);
 						return valorOriginal*calc;
 					}
 				}
@@ -133,13 +129,11 @@ public class VendaCore {
 	}
 
 	private ArrayList<ItemStack> getItensInInventory() {
-		ConsoleLogger.debug("Loading itens in " + player.getName() + " inventory...");
 		ItemStack[] contents = player.getInventory().getContents();
 		ArrayList<ItemStack> itens = new ArrayList<>();
 		for (ItemStack item : contents) {
 			if (item != null) {
 				itens.add(item);
-				ConsoleLogger.debug(" [Player Inventory] " + item.getType().name() + " X" + item.getAmount());
 			}
 		}
 		return itens;

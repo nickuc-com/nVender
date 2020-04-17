@@ -13,57 +13,60 @@
 
 package com.nickuc.vender.commands;
 
-import com.nickuc.ncore.api.config.nConfig;
-import com.nickuc.ncore.api.settings.Messages;
-import com.nickuc.ncore.api.settings.Settings;
-import com.nickuc.ncore.api.plugin.shared.sender.SharedPlayer;
-import com.nickuc.ncore.api.plugin.shared.command.SharedCommand;
-import com.nickuc.ncore.api.plugin.shared.sender.SharedSender;
 import com.nickuc.vender.manager.VendaMenu;
 import com.nickuc.vender.nVender;
-import com.nickuc.vender.settings.MessagesEnum;
-import com.nickuc.vender.settings.SettingsEnum;
+import com.nickuc.vender.settings.Settings;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class VenderCommand extends SharedCommand<nVender> {
+public class VenderCommand implements CommandExecutor {
 
-	public VenderCommand() {
-		super("vender");
-		addPermission(Settings.getString(SettingsEnum.PERMISSION_VENDER)).setPermissionMessage(Messages.getMessage(MessagesEnum.NO_PERMISSION));
+	private final nVender nvender;
+
+	public VenderCommand(nVender nvender) {
+		this.nvender = nvender;
 	}
 
 	@Override
-	public void execute(SharedSender sender, String lb, String[] args) throws Exception {
-		if (!(sender instanceof SharedPlayer)) {
-			reload(sender);
-			return;
-		}
-
-		Player player = sender.getSender();
-		if(args.length == 0) {
-			VendaMenu.openMenu(player);
-			return;
-		}
-
-		String subcmd = args[0];
-		if(subcmd.equalsIgnoreCase("reload") || subcmd.equalsIgnoreCase("r")) {
-			if(!sender.hasPermission("nvender.admin")) {
-				sender.sendMessage(Messages.getMessage(MessagesEnum.NO_PERMISSION));
-				return;
+	public boolean onCommand(CommandSender sender, Command cmd, String lb, String[] args) {
+		try {
+			if (!sender.hasPermission(Settings.PERMISSION_VENDER.getString())) {
+				sender.sendMessage(Settings.Messages.NO_PERMISSION.getMessage());
+				return true;
 			}
-			reload(sender);
-			return;
+
+			if (!(sender instanceof Player)) {
+				reload(sender);
+				return true;
+			}
+
+			Player player = (Player) sender;
+			if(args.length == 0) {
+				VendaMenu.openMenu(player);
+				return true;
+			}
+
+			String subcmd = args[0];
+			if(subcmd.equalsIgnoreCase("reload") || subcmd.equalsIgnoreCase("r")) {
+				if(!sender.hasPermission("nvender.admin")) {
+					sender.sendMessage(Settings.Messages.NO_PERMISSION.getMessage());
+					return true;
+				}
+				reload(sender);
+				return true;
+			}
+			sender.sendMessage("§cSub-comando inexistente.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			sender.sendMessage("§cFailed to execute this command :c");
 		}
-		sender.sendMessage("§cSub-comando inexistente.");
+		return true;
 	}
 
-	private void reload(SharedSender sender) throws Exception {
-		nConfig config = new nConfig("config.yml");
-		if (!config.existsConfig()) {
-			config.saveDefaultConfig("config.yml");
-		}
-		SettingsEnum.reload(config);
-		MessagesEnum.reload(config);
-		sender.sendMessage(Messages.getMessage(MessagesEnum.CONFIG_RELOADED));
+	private void reload(CommandSender sender) throws Exception {
+		nvender.config();
+		sender.sendMessage(Settings.Messages.CONFIG_RELOADED.getMessage());
 	}
 }
